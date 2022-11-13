@@ -1,48 +1,58 @@
 package services
 
 import (
-	bookDao "microservicio/daos/book"
+	itemDao "microservicio/daos/item"
 	"microservicio/dtos"
 	model "microservicio/models"
 	e "microservicio/utils/errors"
 )
 
-type bookService struct{}
+type itemService struct{}
 
-type bookServiceInterface interface {
-	GetBook(id string) (dtos.BookDto, e.ApiError)
-	 
-	InsertBook(bookDto dtos.BookDto) (dtos.BookDto, e.ApiError)
+type itemServiceInterface interface {
+	//GetBook(id string) (dtos.BookDto, e.ApiError)
+
+	InsertItem(itemDto dtos.itemDto) (dtos.itemDto, e.ApiError)
 }
 
 var (
-	BookService bookServiceInterface
+	itemService itemServiceInterface
 )
 
 func init() {
-	BookService = &bookService{}
+	itemService = &itemService{}
 }
 
-func (s *bookService) GetBook(id string) (dtos.BookDto, e.ApiError) {
+func (s *itemService) InsertItem(itemDto dtos.itemDto) (dtos.itemDto, e.ApiError) {
 
-	var book model.Book = bookDao.GetById(id)
-	var bookDto dtos.BookDto
+	item model.item 
+	var itemDto dtos.itemDto
+	item.Tittle = itemDto.Tittle
+	item.Seller = itemDto.Seller
+	item.Price = itemDto.Price
+	item.Currency = itemDto.Currency
+	item.Pictures = itemDto.Pictures
+	item.Description = itemDto.Description
+	item.State = itemDto.State
+	item.City = itemDto.City
+	item.Street = itemDto.Street
+	item.Number = itemDto.Number
 
-	if book.Id.Hex() == "000000000000000000000000" {
-		return bookDto, e.NewBadRequestApiError("book not found")
+	item = itemDao.InsertItem(item)
+	if item.Id.Hex() == "000000000000000000000000" {
+		return itenmDto, e.NewBadRequestApiError("error insert item not found")
 	}
-	bookDto.Name = book.Name
-	bookDto.Id = book.Id.Hex()
-	return bookDto, nil
+	
+	itemDto.Id = item.Id.Hex()
+	
+	return itemDto, nil
 }
 
- 
-
-func (s *bookService) InsertBook(bookDto dtos.BookDto) (dtos.BookDto, e.ApiError) {
+/*func (s *bookService) InsertBook(bookDto dtos.BookDto) (dtos.BookDto, e.ApiError) {
 
 	var book model.Book
 
-	book.Name = bookDto.Name 
+	book.Name = bookDto.Name
 
 	book = bookDao.Insert(book)
 
@@ -53,3 +63,4 @@ func (s *bookService) InsertBook(bookDto dtos.BookDto) (dtos.BookDto, e.ApiError
 
 	return bookDto, nil
 }
+*/
