@@ -24,6 +24,42 @@ func Get(c *gin.Context) {
 		c.JSON(http.StatusOK,bookDtoCache)
 		return
 
+	}
+	bookDto, er := service.BookService.GetBook(id)
+
+
+	// Error del Insert
+	if er != nil {
+		c.JSON(er.Status(), er)
+		return
+	}
+
+	c.JSON(http.StatusOK,bookDto)
+}
+
+func Insert(c *gin.Context) {
+	var bookDto dtos.BookDto
+	err := c.BindJSON(&bookDto)
+
+	// Error Parsing json param
+	if err != nil {
+    	fmt.Println(err)
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+	bookDto, er := service.BookService.InsertBook(bookDto)
+
+	// Error del Insert
+	if er != nil {
+		c.JSON(er.Status(), er)
+		return
+	}
+	bookDtoStr, _ := json.Marshal(bookDto)
+	cache.Set(bookDto.Id,bookDtoStr)
+    fmt.Println("save cache: " + bookDto.Id)
+	c.JSON(http.StatusCreated, bookDto)
+}*/
 
 func InsertItem(c *gin.Context) {
 	var itemDto dtos.itemDto

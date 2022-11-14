@@ -1,8 +1,17 @@
 package main
 
+import (
+	"microservicio/app"
+)
+
+func main() {
+
+	app.StartRoute()
+}
+
 /*
 import (
-	"microservicio/app/router"
+	"Microservicio/app/router"
 	"microservicio/utils/cache"
 	"microservicio/utils/db"
 
@@ -30,7 +39,7 @@ func main() {
 	fmt.Println("Starting server")
 	gin_router.Run(":8090")
 }
-*/
+
 /*
 func main() {
 	fmt.Println("Hello World")
