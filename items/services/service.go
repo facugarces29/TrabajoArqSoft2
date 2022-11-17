@@ -6,6 +6,6 @@ import (
 )
 
 type Service interface {
-	Get(id string) (dtos.ItemDto, e.ApiError)
-	Insert(item dtos.ItemDto) (dtos.ItemDto, e.ApiError)
+	GetItemById(id string) (dtos.ItemDto, e.ApiError)
+	InsertItem(item dtos.ItemDto) (dtos.ItemDto, e.ApiError)
 }
